@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Vertical Tabs Toggle",
+  "version": "0.1.0",
+  "description": "Recolhe ou expande a barra nativa de abas verticais.",
+  "permissions": ["nativeMessaging"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Recolher ou expandir abas verticais"
+  },
+  "commands": {
+    "toggle-vertical-tabs": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Recolher ou expandir abas verticais"
+    }
+  }
+}

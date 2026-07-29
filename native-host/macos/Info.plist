@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleExecutable</key>
+  <string>ChromeVerticalTabsToggle</string>
+  <key>CFBundleIdentifier</key>
+  <string>dev.matheus.chrome-vertical-tabs-toggle</string>
+  <key>CFBundleName</key>
+  <string>Chrome Vertical Tabs Toggle</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>0.1.0</string>
+  <key>LSBackgroundOnly</key>
+  <true/>
+  <key>NSAccessibilityUsageDescription</key>
+  <string>Presses Chrome's native vertical-tabs sidebar button.</string>
+</dict>
+</plist>
