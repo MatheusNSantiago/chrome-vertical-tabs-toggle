@@ -42,8 +42,5 @@ O estado indica o resultado da ação, não uma estimativa anterior.
 {"error":"Chrome vertical tab toggle was not found"}
 ```
 
-O host aceita somente `toggle` e `collapse`; ele não recebe texto arbitrário,
-comandos de shell, coordenadas ou nomes de processos da extensão.
-
 O leitor consome exatamente o cabeçalho e o payload de uma mensagem. Ele não
 espera EOF, pois o navegador mantém o canal aberto enquanto aguarda a resposta.

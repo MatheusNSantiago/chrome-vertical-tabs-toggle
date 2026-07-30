@@ -14,8 +14,6 @@ or a toolbar click.
 - Toggles the sidebar in the active Chrome window.
 - Collapses compatible sidebars when Chrome starts.
 - Supports Linux, macOS, and Windows.
-- Uses the operating system's accessibility API, without image matching or
-  coordinate-based clicks.
 
 ## Install
 
@@ -48,9 +46,8 @@ native-host/linux/install.py <extension-id>
 
 Exit every Chrome or Chromium process and open the browser again.
 
-The installer supports native packages of Google Chrome Stable, Beta, Dev,
-Canary, and Chromium. Snap and Flatpak packages are not supported because their
-sandboxes prevent this native host integration.
+Requires Python 3.10+, PyGObject, and AT-SPI. Snap and Flatpak packages are not
+supported.
 
 #### macOS
 
@@ -61,8 +58,7 @@ Extract `chrome-vertical-tabs-toggle-macos-*.zip` and run:
 ```
 
 In **System Settings → Privacy & Security → Accessibility**, enable
-`Chrome Vertical Tabs Toggle.app`, then restart Chrome. The release contains a
-universal executable for Apple silicon and Intel Macs.
+`Chrome Vertical Tabs Toggle.app`, then restart Chrome.
 
 #### Windows
 
@@ -92,45 +88,20 @@ If Chrome does not already show the vertical-tabs option:
 Clicking the extension's toolbar icon performs the same action. The shortcut
 works while Chrome is focused.
 
-When Chrome starts, the extension retries briefly while browser windows are
-being restored and collapses every compatible vertical-tab sidebar it finds.
-
 ## Compatibility
 
-| System | Supported browsers | Native requirement |
-| --- | --- | --- |
-| Linux | Google Chrome Stable, Beta, Dev, Canary; Chromium | Python 3.10+, PyGObject, and AT-SPI |
-| macOS 13+ | Google Chrome Stable, Beta, Dev, Canary; Chromium | Accessibility permission |
-| Windows 10 and 11 | Google Chrome; Chromium | .NET Framework 4.6.2 or newer |
+| System | Supported browsers |
+| --- | --- |
+| Linux | Native packages of Google Chrome Stable, Beta, Dev, Canary; Chromium |
+| macOS 13+ | Google Chrome Stable, Beta, Dev, Canary; Chromium |
+| Windows 10 and 11 | Google Chrome; Chromium |
 
-Chrome-derived browsers with different application identifiers, executable
-names, or native-messaging directories are not currently detected.
+Other Chromium-based browsers are not currently supported.
 
 ## Permissions
 
 The extension requests only `nativeMessaging`. It has no site access and cannot
 read page contents or browsing history through an extension permission.
-
-Messages to the native host contain one of two commands:
-
-```json
-{"command": "toggle"}
-{"command": "collapse"}
-```
-
-The host uses AT-SPI on Linux, AXUIElement on macOS, or UI Automation on Windows
-to find Chrome's accessible **Expand tabs** or **Collapse tabs** button and
-invoke its native press action.
-
-```text
-shortcut or toolbar click
-          ↓
-Chrome extension
-          ↓ Native Messaging
-native host
-          ↓ accessibility API
-Chrome's vertical-tabs button
-```
 
 ## Troubleshooting
 
@@ -145,8 +116,7 @@ Restart every Chrome process afterwards.
 
 Confirm that vertical tabs are enabled and visible in the active Chrome window.
 On Linux, also confirm that Chrome was completely restarted after running the
-installer; the installer enables the accessibility tree on the browser
-launcher.
+installer.
 
 ### The shortcut does nothing
 
@@ -200,10 +170,6 @@ Accessible sidebar labels are generated from Chromium's official translations:
 ```sh
 uv run update-sidebar-labels
 ```
-
-Pushing a `v*` tag runs validation on Linux, macOS, and Windows, builds the
-platform hosts, packages the unpacked extension, and publishes the four
-artifacts in a GitHub release.
 
 The module boundaries are described in [ARCHITECTURE.md](ARCHITECTURE.md), and
 the native protocol is documented in

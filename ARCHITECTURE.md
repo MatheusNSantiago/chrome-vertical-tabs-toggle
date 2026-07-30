@@ -19,13 +19,11 @@ acessibilidade ou idiomas.
 
 Cada executável implementa o mesmo contrato de
 [Native Messaging](docs/native-messaging.md). A seleção acontece naturalmente
-quando o navegador encontra o host registrado pelo instalador do sistema; não
-há factory em runtime.
+quando o navegador encontra o host registrado pelo instalador do sistema.
 
 `extension/native-host-contract.json` define a identidade do host. A extensão o
 consome diretamente; os builds de macOS e Windows o incluem nos respectivos
-instaladores, e o instalador Linux o lê do checkout. Não existem cópias
-mantidas manualmente.
+instaladores, e o instalador Linux o lê do checkout.
 
 `native-host/resources/sidebar-labels.json` é o vocabulário comum dos três adapters.
 `uv run update-sidebar-labels` o regenera a partir do HEAD do Chromium e grava
@@ -33,15 +31,8 @@ a revisão exata usada. `schema_version` protege a fronteira entre o gerador e
 os três leitores. Os adapters decidem o controle e a ação nativos; não mantêm
 traduções próprias.
 
-`tools/` contém apenas ferramentas de manutenção executadas pelo uv. O host
-Linux não depende do ambiente virtual porque o binding de AT-SPI pertence ao
-Python do sistema.
-
 O instalador Linux copia o host para o diretório de dados do usuário antes de
-registrá-lo. O manifesto nunca aponta para arquivos do checkout.
-
-Os testes de contrato enviam uma mensagem enquadrada sem fechar `stdin`. Todo
-host deve responder antes do EOF, independentemente da API de acessibilidade.
+registrá-lo.
 
 ## Estado
 
