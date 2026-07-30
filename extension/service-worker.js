@@ -45,7 +45,7 @@ async function toggleVerticalTabSidebar() {
   try {
     await toggleVerticalTabs();
   } catch (error) {
-    console.error("Não foi possível acionar o host nativo.", error);
+    console.error("Could not invoke the native host.", error);
   }
 }
 
@@ -55,7 +55,7 @@ async function collapseVerticalTabSidebar(reportFailure) {
   } catch (error) {
     if (reportFailure) {
       console.error(
-        "Não foi possível recolher a barra de abas ao iniciar.",
+        "Could not collapse the vertical tab sidebar on startup.",
         error,
       );
     }

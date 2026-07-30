@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Chrome Vertical Tabs Toggle"
+  },
+  "extensionDescription": {
+    "message": "Recolhe ou expande a barra nativa de abas verticais do Chrome."
+  },
+  "toggleAction": {
+    "message": "Recolher ou expandir abas verticais"
+  },
+  "toggleCommand": {
+    "message": "Recolher ou expandir abas verticais"
+  }
+}

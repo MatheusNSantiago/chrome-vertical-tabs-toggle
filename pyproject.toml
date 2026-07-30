@@ -1,7 +1,7 @@
 [project]
 name = "chrome-vertical-tabs-toggle"
 version = "0.1.0"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 
 [project.scripts]
 update-sidebar-labels = "update_sidebar_labels:main"
@@ -24,3 +24,9 @@ chrome_vertical_tabs_toggle_linux_installation = "native-host/linux/chrome_verti
 
 [tool.ruff.lint.per-file-ignores]
 "native-host/linux/chrome_vertical_tabs_toggle_linux/atspi.py" = ["E402", "I001"]
+
+[dependency-groups]
+dev = [
+    "ruff==0.16.0",
+    "tomli>=2.0",
+]

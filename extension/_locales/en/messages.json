@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Chrome Vertical Tabs Toggle"
+  },
+  "extensionDescription": {
+    "message": "Collapses or expands Chrome's native vertical tab sidebar."
+  },
+  "toggleAction": {
+    "message": "Collapse or expand vertical tabs"
+  },
+  "toggleCommand": {
+    "message": "Collapse or expand vertical tabs"
+  }
+}

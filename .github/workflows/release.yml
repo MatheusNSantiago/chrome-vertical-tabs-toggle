@@ -1,0 +1,119 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    uses: ./.github/workflows/validate.yml
+
+  extension:
+    name: Package extension
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create archive
+        run: |
+          archive="$GITHUB_WORKSPACE/chrome-vertical-tabs-toggle-extension-${GITHUB_REF_NAME}.zip"
+          cd extension
+          zip -r "$archive" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: extension
+          path: chrome-vertical-tabs-toggle-extension-*.zip
+          if-no-files-found: error
+
+  linux:
+    name: Package Linux host
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create archive
+        run: |
+          bundle="$RUNNER_TEMP/chrome-vertical-tabs-toggle"
+          mkdir -p "$bundle/extension" "$bundle/native-host/resources"
+          git archive HEAD native-host/linux | tar -x -C "$bundle"
+          cp native-host/resources/sidebar-labels.json "$bundle/native-host/resources/"
+          cp extension/native-host-contract.json "$bundle/extension/"
+          tar -C "$RUNNER_TEMP" -czf \
+            "chrome-vertical-tabs-toggle-linux-${GITHUB_REF_NAME}.tar.gz" \
+            chrome-vertical-tabs-toggle
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: chrome-vertical-tabs-toggle-linux-*.tar.gz
+          if-no-files-found: error
+
+  macos:
+    name: Package macOS host
+    needs: validate
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build host
+        run: native-host/macos/build.sh
+      - name: Create archive
+        run: |
+          archive="$GITHUB_WORKSPACE/chrome-vertical-tabs-toggle-macos-${GITHUB_REF_NAME}.zip"
+          cd native-host/macos/dist
+          ditto -c -k --sequesterRsrc . "$archive"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: chrome-vertical-tabs-toggle-macos-*.zip
+          if-no-files-found: error
+
+  windows:
+    name: Package Windows host
+    needs: validate
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Build host
+        shell: powershell
+        run: native-host/windows/build.ps1
+      - name: Create archive
+        shell: powershell
+        run: |
+          Compress-Archive `
+            -Path native-host/windows/dist/windows/* `
+            -DestinationPath "chrome-vertical-tabs-toggle-windows-$env:GITHUB_REF_NAME.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: chrome-vertical-tabs-toggle-windows-*.zip
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub release
+    needs:
+      - extension
+      - linux
+      - macos
+      - windows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-files
+          merge-multiple: true
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            release-files/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Chrome Vertical Tabs Toggle $GITHUB_REF_NAME" \
+            --generate-notes \
+            --verify-tag
