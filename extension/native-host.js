@@ -5,7 +5,7 @@ const nativeHostContract = fetch(
   chrome.runtime.getURL("native-host-contract.json"),
 ).then(async (response) => {
   const contract = await response.json();
-  if (contract.schema_version !== 1) {
+  if (contract.schema_version !== 2) {
     throw new Error("Unsupported native host contract");
   }
   return contract;

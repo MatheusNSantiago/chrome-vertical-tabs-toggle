@@ -1,3 +1,5 @@
+import base64
+import hashlib
 import json
 import plistlib
 import re
@@ -24,6 +26,16 @@ class ProjectMetadataTest(unittest.TestCase):
             macos_bundle["CFBundleShortVersionString"],
         )
         self.assertEqual(manifest["version"], macos_bundle["CFBundleVersion"])
+
+    def test_extension_id_matches_the_native_host_contract(self) -> None:
+        manifest = read_json(EXTENSION_DIRECTORY / "manifest.json")
+        contract = read_json(EXTENSION_DIRECTORY / "native-host-contract.json")
+
+        public_key = base64.b64decode(manifest["key"])
+        digest = hashlib.sha256(public_key).hexdigest()[:32]
+        extension_id = digest.translate(str.maketrans("0123456789abcdef", "abcdefghijklmnop"))
+
+        self.assertEqual(contract["extension_id"], extension_id)
 
     def test_manifest_messages_exist_in_default_locale(self) -> None:
         manifest = read_json(EXTENSION_DIRECTORY / "manifest.json")

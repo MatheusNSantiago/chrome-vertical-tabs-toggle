@@ -3,9 +3,9 @@
 Cada mensagem é um objeto JSON enquadrado pelo protocolo Native Messaging do
 Chrome: tamanho de 32 bits little-endian seguido do UTF-8.
 
-`extension/native-host-contract.json` é a fonte canônica do nome e da descrição
-usados pela extensão e pelos três instaladores. Seu `schema_version` deve ser
-suportado antes da instalação.
+`extension/native-host-contract.json` é a fonte canônica das identidades usadas
+pela extensão e pelos três instaladores. Seu `schema_version` deve ser suportado
+antes da instalação.
 
 ## Pedidos
 

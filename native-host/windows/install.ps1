@@ -1,14 +1,8 @@
-param(
-    [Parameter(Mandatory = $true)]
-    [ValidatePattern("^[a-p]{32}$")]
-    [string]$ExtensionId
-)
-
 $ErrorActionPreference = "Stop"
 $BundleDirectory = $PSScriptRoot
 $ContractPath = Join-Path $BundleDirectory "native-host-contract.json"
 $Contract = Get-Content -Raw -LiteralPath $ContractPath | ConvertFrom-Json
-if ($Contract.schema_version -ne 1) {
+if ($Contract.schema_version -ne 2) {
     throw "Unsupported native host contract"
 }
 
@@ -25,17 +19,12 @@ Copy-Item (Join-Path $BundleDirectory "ChromeVerticalTabsToggle.exe") $HostPath
 Copy-Item (Join-Path $BundleDirectory "ChromeVerticalTabsToggle.exe.config") $InstallDirectory
 Copy-Item (Join-Path $BundleDirectory "sidebar-labels.json") $InstallDirectory
 
-$AllowedOrigins = @("chrome-extension://$ExtensionId/")
-if (Test-Path -LiteralPath $ManifestPath) {
-    $InstalledManifest = Get-Content -Raw -LiteralPath $ManifestPath | ConvertFrom-Json
-    $AllowedOrigins += $InstalledManifest.allowed_origins
-}
 $Manifest = @{
     name = $Contract.name
     description = $Contract.description
     path = $HostPath
     type = "stdio"
-    allowed_origins = @($AllowedOrigins | Sort-Object -Unique)
+    allowed_origins = @("chrome-extension://$($Contract.extension_id)/")
 }
 $ManifestJson = $Manifest | ConvertTo-Json
 [IO.File]::WriteAllText($ManifestPath, $ManifestJson, [Text.UTF8Encoding]::new($false))

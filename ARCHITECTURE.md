@@ -21,9 +21,9 @@ Cada executável implementa o mesmo contrato de
 [Native Messaging](docs/native-messaging.md). A seleção acontece naturalmente
 quando o navegador encontra o host registrado pelo instalador do sistema.
 
-`extension/native-host-contract.json` define a identidade do host. A extensão o
-consome diretamente; os builds de macOS e Windows o incluem nos respectivos
-instaladores, e o instalador Linux o lê do checkout.
+`extension/native-host-contract.json` define as identidades da extensão e do
+host. A extensão o consome diretamente; os builds de macOS e Windows o incluem
+nos respectivos instaladores, e o instalador Linux o lê do checkout.
 
 `native-host/resources/sidebar-labels.json` é o vocabulário comum dos três adapters.
 `uv run update-sidebar-labels` o regenera a partir do HEAD do Chromium e grava

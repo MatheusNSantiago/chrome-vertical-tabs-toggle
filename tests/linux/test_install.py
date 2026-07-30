@@ -32,6 +32,10 @@ class InstallTest(unittest.TestCase):
             contract.description,
             "Chrome Vertical Tabs Toggle native host",
         )
+        self.assertEqual(
+            contract.extension_id,
+            "hkbfmfkcmmlfpoipghfopahpcfkbleam",
+        )
 
     def test_deploys_an_independent_native_host(self) -> None:
         with TemporaryDirectory() as temporary_directory:
@@ -62,23 +66,17 @@ class InstallTest(unittest.TestCase):
             self.assertFalse(stale_module.exists())
             self.assertNotEqual(host_path.parent, source_directory)
 
-    def test_preserves_extension_ids_registered_by_previous_installations(self) -> None:
+    def test_registers_the_contract_extension(self) -> None:
         with TemporaryDirectory() as temporary_directory:
             manifest_directory = Path(temporary_directory)
             contract = NativeHostContract(
                 name="dev.matheus.chrome_vertical_tabs",
                 description="Native host",
+                extension_id="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             )
             host_path = manifest_directory / "main.py"
             register_native_host(
                 manifest_directory,
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                contract,
-                host_path,
-            )
-            register_native_host(
-                manifest_directory,
-                "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                 contract,
                 host_path,
             )
@@ -93,7 +91,6 @@ class InstallTest(unittest.TestCase):
             manifest["allowed_origins"],
             [
                 "chrome-extension://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/",
-                "chrome-extension://bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/",
             ],
         )
 

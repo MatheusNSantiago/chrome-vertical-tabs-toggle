@@ -29,7 +29,6 @@ native host presses Chrome's sidebar button.
 3. Open `chrome://extensions`.
 4. Enable **Developer mode**.
 5. Select **Load unpacked** and choose the extracted directory.
-6. Copy the extension ID shown by Chrome. The native host installer needs it.
 
 ### 2. Install the native host
 
@@ -41,7 +40,7 @@ Extract `chrome-vertical-tabs-toggle-linux-*.tar.gz`, enter its directory, and
 run:
 
 ```sh
-native-host/linux/install.py <extension-id>
+native-host/linux/install.py
 ```
 
 Exit every Chrome or Chromium process and open the browser again.
@@ -54,7 +53,7 @@ supported.
 Extract `chrome-vertical-tabs-toggle-macos-*.zip` and run:
 
 ```sh
-./install.sh <extension-id>
+./install.sh
 ```
 
 In **System Settings → Privacy & Security → Accessibility**, enable
@@ -65,7 +64,7 @@ In **System Settings → Privacy & Security → Accessibility**, enable
 Extract `chrome-vertical-tabs-toggle-windows-*.zip` and run:
 
 ```powershell
-.\install.cmd <extension-id>
+.\install.cmd
 ```
 
 Restart Chrome after installation.
@@ -134,22 +133,22 @@ Security → Accessibility**. The installed app is located at:
 
 ## Build from source
 
-Clone the repository and load [`extension/`](extension) through
-`chrome://extensions`. Copy its extension ID, then build or install the host:
+Clone the repository, load [`extension/`](extension) through
+`chrome://extensions`, then build or install the host:
 
 ```sh
 # Linux
-native-host/linux/install.py <extension-id>
+native-host/linux/install.py
 
 # macOS
 native-host/macos/build.sh
-native-host/macos/dist/install.sh <extension-id>
+native-host/macos/dist/install.sh
 ```
 
 ```powershell
 # Windows
 .\native-host\windows\build.ps1
-.\native-host\windows\dist\windows\install.cmd <extension-id>
+.\native-host\windows\dist\windows\install.cmd
 ```
 
 The macOS build requires the Xcode Command Line Tools. The Windows build

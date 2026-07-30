@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
 from pathlib import Path
 
 from chrome_vertical_tabs_toggle_linux_installation.browsers import (
@@ -17,7 +16,6 @@ from chrome_vertical_tabs_toggle_linux_installation.native_host import (
 
 
 def main() -> None:
-    extension_id = sys.argv[1]
     source_directory = Path(__file__).resolve().parent
     project_directory = source_directory.parents[1]
     contract = read_native_host_contract(
@@ -33,7 +31,6 @@ def main() -> None:
         enable_accessibility(browser)
         register_native_host(
             native_messaging_directory(browser),
-            extension_id,
             contract,
             host_path,
         )

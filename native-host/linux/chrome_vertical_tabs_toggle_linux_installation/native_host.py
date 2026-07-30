@@ -3,13 +3,14 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-SUPPORTED_CONTRACT_SCHEMA = 1
+SUPPORTED_CONTRACT_SCHEMA = 2
 
 
 @dataclass(frozen=True)
 class NativeHostContract:
     name: str
     description: str
+    extension_id: str
 
 
 def read_native_host_contract(path: Path) -> NativeHostContract:
@@ -19,6 +20,7 @@ def read_native_host_contract(path: Path) -> NativeHostContract:
     return NativeHostContract(
         name=payload["name"],
         description=payload["description"],
+        extension_id=payload["extension_id"],
     )
 
 
@@ -49,27 +51,19 @@ def deploy_native_host(
 
 def register_native_host(
     manifest_directory: Path,
-    extension_id: str,
     contract: NativeHostContract,
     host_path: Path,
 ) -> None:
     manifest_path = manifest_directory / f"{contract.name}.json"
-    allowed_origins = existing_origins(manifest_path) | {
-        f"chrome-extension://{extension_id}/"
-    }
     manifest = {
         "name": contract.name,
         "description": contract.description,
         "path": str(host_path),
         "type": "stdio",
-        "allowed_origins": sorted(allowed_origins),
+        "allowed_origins": [
+            f"chrome-extension://{contract.extension_id}/",
+        ],
     }
 
     manifest_directory.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
-
-
-def existing_origins(manifest_path: Path) -> set[str]:
-    if not manifest_path.exists():
-        return set()
-    return set(json.loads(manifest_path.read_text())["allowed_origins"])
