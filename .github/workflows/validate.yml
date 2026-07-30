@@ -13,8 +13,8 @@ jobs:
     name: Python and extension
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.10"
       - name: Install Linux accessibility bindings
@@ -40,22 +40,23 @@ jobs:
     name: Build macOS host
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build universal host
         run: native-host/macos/build.sh
       - name: Inspect bundle
         run: |
           plutil -lint "native-host/macos/dist/Chrome Vertical Tabs Toggle.app/Contents/Info.plist"
-          lipo -verify_arch x86_64 arm64 \
-            "native-host/macos/dist/Chrome Vertical Tabs Toggle.app/Contents/MacOS/ChromeVerticalTabsToggle"
+          lipo \
+            "native-host/macos/dist/Chrome Vertical Tabs Toggle.app/Contents/MacOS/ChromeVerticalTabsToggle" \
+            -verify_arch x86_64 arm64
           codesign --verify "native-host/macos/dist/Chrome Vertical Tabs Toggle.app"
 
   windows:
     name: Build Windows host
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "8.0.x"
       - name: Build host

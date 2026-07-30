@@ -17,13 +17,13 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Create archive
         run: |
           archive="$GITHUB_WORKSPACE/chrome-vertical-tabs-toggle-extension-${GITHUB_REF_NAME}.zip"
           cd extension
           zip -r "$archive" .
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: extension
           path: chrome-vertical-tabs-toggle-extension-*.zip
@@ -34,7 +34,7 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Create archive
         run: |
           bundle="$RUNNER_TEMP/chrome-vertical-tabs-toggle"
@@ -45,7 +45,7 @@ jobs:
           tar -C "$RUNNER_TEMP" -czf \
             "chrome-vertical-tabs-toggle-linux-${GITHUB_REF_NAME}.tar.gz" \
             chrome-vertical-tabs-toggle
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: linux
           path: chrome-vertical-tabs-toggle-linux-*.tar.gz
@@ -56,7 +56,7 @@ jobs:
     needs: validate
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build host
         run: native-host/macos/build.sh
       - name: Create archive
@@ -64,7 +64,7 @@ jobs:
           archive="$GITHUB_WORKSPACE/chrome-vertical-tabs-toggle-macos-${GITHUB_REF_NAME}.zip"
           cd native-host/macos/dist
           ditto -c -k --sequesterRsrc . "$archive"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: macos
           path: chrome-vertical-tabs-toggle-macos-*.zip
@@ -75,8 +75,8 @@ jobs:
     needs: validate
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "8.0.x"
       - name: Build host
@@ -88,7 +88,7 @@ jobs:
           Compress-Archive `
             -Path native-host/windows/dist/windows/* `
             -DestinationPath "chrome-vertical-tabs-toggle-windows-$env:GITHUB_REF_NAME.zip"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: windows
           path: chrome-vertical-tabs-toggle-windows-*.zip
@@ -103,7 +103,7 @@ jobs:
       - windows
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: release-files
           merge-multiple: true
