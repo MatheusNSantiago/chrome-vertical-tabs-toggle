@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from chrome_vertical_tabs_toggle.update_sidebar_labels import (
+from update_sidebar_labels import (
     generate_labels,
     labels_from_translation_documents,
 )
@@ -29,15 +29,15 @@ class SidebarLabelsTest(unittest.TestCase):
         </translationbundle>"""
         with (
             patch(
-                "chrome_vertical_tabs_toggle.update_sidebar_labels.chromium_revision",
+                "update_sidebar_labels.chromium_revision",
                 return_value="revision",
             ),
             patch(
-                "chrome_vertical_tabs_toggle.update_sidebar_labels.locale_resources",
+                "update_sidebar_labels.locale_resources",
                 return_value=["generated_resources_en-GB.xtb"],
             ),
             patch(
-                "chrome_vertical_tabs_toggle.update_sidebar_labels.translation_documents",
+                "update_sidebar_labels.translation_documents",
                 return_value=[document],
             ),
         ):

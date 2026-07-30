@@ -33,9 +33,9 @@ a revisão exata usada. `schema_version` protege a fronteira entre o gerador e
 os três leitores. Os adapters decidem o controle e a ação nativos; não mantêm
 traduções próprias.
 
-`src/chrome_vertical_tabs_toggle/` contém apenas ferramentas de manutenção
-executadas pelo uv. O host Linux não depende do ambiente virtual porque o
-binding de AT-SPI pertence ao Python do sistema.
+`tools/` contém apenas ferramentas de manutenção executadas pelo uv. O host
+Linux não depende do ambiente virtual porque o binding de AT-SPI pertence ao
+Python do sistema.
 
 O instalador Linux copia o host para o diretório de dados do usuário antes de
 registrá-lo. O manifesto nunca aponta para arquivos do checkout.

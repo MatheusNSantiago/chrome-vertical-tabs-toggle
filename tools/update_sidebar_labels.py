@@ -124,7 +124,7 @@ def generate_labels() -> GeneratedLabels:
 
 def main() -> None:
     labels_path = (
-        Path(__file__).parents[2] / "native-host/resources/sidebar-labels.json"
+        Path(__file__).parent.parent / "native-host/resources/sidebar-labels.json"
     )
     labels = generate_labels()
     labels_path.write_text(json.dumps(labels, ensure_ascii=False, indent=2) + "\n")

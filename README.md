@@ -9,7 +9,8 @@ Automation no Windows. Não há reconhecimento de imagem nem clique por
 coordenada.
 
 Os rótulos acessíveis seguem o idioma do navegador. O arquivo
-`native-host/resources/sidebar-labels.json` é gerado das traduções oficiais do Chromium:
+`native-host/resources/sidebar-labels.json` é gerado das traduções oficiais do
+Chromium por `tools/update_sidebar_labels.py`:
 
 ```sh
 uv run update-sidebar-labels
