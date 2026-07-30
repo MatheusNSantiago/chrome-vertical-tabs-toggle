@@ -104,6 +104,7 @@ let chromeBundleIdentifiers = Set([
     "com.google.chrome.for.testing",
     "org.chromium.Chromium",
 ])
+let webAreaRole = "AXWebArea"
 
 func runningBrowsers() -> [NSRunningApplication] {
     return NSWorkspace.shared.runningApplications.filter {
@@ -146,7 +147,7 @@ func sidebarButton(in root: AXUIElement, labels: Labels) -> (AXUIElement, String
 
     while let element = pending.popLast() {
         let role: String? = attribute(element, kAXRoleAttribute as CFString)
-        if role == kAXWebAreaRole as String {
+        if role == webAreaRole {
             continue
         }
         let children: [AXUIElement]? = attribute(
