@@ -72,8 +72,7 @@ Extract `chrome-vertical-tabs-toggle-windows-*.zip` and run:
 .\install.cmd <extension-id>
 ```
 
-Restart Chrome after installation. The host uses the .NET Framework included
-with Windows and does not install an additional runtime.
+Restart Chrome after installation.
 
 ### 3. Enable vertical tabs
 

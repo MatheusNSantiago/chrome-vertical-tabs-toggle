@@ -72,8 +72,7 @@ Extraia `chrome-vertical-tabs-toggle-windows-*.zip` e execute:
 .\install.cmd <id-da-extensão>
 ```
 
-Reinicie o Chrome após a instalação. O host usa o .NET Framework incluído no
-Windows e não instala outro runtime.
+Reinicie o Chrome após a instalação.
 
 ### 3. Ative as abas verticais
 
